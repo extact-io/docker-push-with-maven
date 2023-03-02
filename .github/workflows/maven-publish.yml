@@ -18,8 +18,8 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         server-id: ghcr.io
-        #server-username: REPOSITORY_SERVER_USER
-        #server-password: REPOSITORY_SERVER_PASSWORD
+        server-username: REPOSITORY_SERVER_USER
+        server-password: REPOSITORY_SERVER_PASSWORD
         settings-path: ${{ github.workspace }}
 
     - name: TEST
@@ -28,6 +28,5 @@ jobs:
     - name: Publish to GitHub Packages Apache Maven
       run: mvn -B package docker:build docker:push -Dimage.tag=`date +%Y%m%dT%H%M%S-%3N` --file pom.xml -s $GITHUB_WORKSPACE/settings.xml
       env:
-        #REPOSITORY_SERVER_USER: ${{ secrets.REPOSITORY_SERVER_USER }}
-        #REPOSITORY_SERVER_PASSWORD: ${{ secrets.REPOSITORY_SERVER_PASSWORD }}
-        GITHUB_TOKEN: ${{ github.token }}
+        REPOSITORY_SERVER_USER: ${{ secrets.REPOSITORY_SERVER_USER }}
+        REPOSITORY_SERVER_PASSWORD: ${{ secrets.REPOSITORY_SERVER_PASSWORD }}
